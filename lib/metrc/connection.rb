@@ -1,0 +1,16 @@
+require "faraday"
+require 'pry'
+
+module Metrc
+  module Connection
+    private
+
+    def connection
+      binding.pry
+      options = { headers: { "Accept" => "application/json",
+                             "Content-Type" => "application/json" },
+                  url: endpoint }.merge(connection_options)
+      Faraday::Connection.new(options)
+    end
+  end
+end
