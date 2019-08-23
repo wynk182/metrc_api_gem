@@ -27,7 +27,7 @@ module Metrc
       def save_response_to_object!(response_array, user_object)
         response_array.each do |response|
           response.each do |key, value|
-            user_object[key] = value if user_object.key?(key)
+            user_object[key] = value if user_object.respond_to?(key)
           end
         end
       end

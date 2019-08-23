@@ -9,7 +9,7 @@ module Metrc
     # By default, don't set any connection options
     DEFAULT_CONNECTION_OPTIONS = {}
 
-    DEFAULT_BODY = { vendor_api_key: nil }
+    DEFAULT_BODY = { vendor_api_key: Rails.application.credentials[Rails.env.to_sym][:metrc_california][:vendor_api_key] }
 
     # The endpoint that will be used to connect if none is set
     #
