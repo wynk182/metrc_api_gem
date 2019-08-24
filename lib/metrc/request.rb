@@ -13,9 +13,15 @@ module Metrc
       when :post
         response = metrc_request.post(final_path, [options].to_json)
       end
-
+      
       status = check_status(response) if !!(response.status)
-      return JSON.parse(response.body) if status == nil
+      if status == nil
+        if response.body != ''
+          return JSON.parse(response.body)
+        else
+          return 'Ok!'
+        end
+      end
       raise Metrc::UnknownError
     end
 
@@ -31,23 +37,22 @@ module Metrc
     def check_status(response)
       case response.status
       when 400
-        raise Metrc::ParameterMissing, JSON.parse(response.body)
+        raise Metrc::ParameterMissing, JSON.parse(response.body) unless response.body == ''
       when 401
         raise Metrc::Unauthorized, 'Unauthorized'
       when 403
         #raise Metrc::ShowErrorMessage, data["message"]
-        binding.pry
+        p 'ERROR 403', JSON.parse(response.body) unless response.body == ''
       when 404
         raise Metrc::UrlNotFound, '404- File or directory not found'
       when 415
         raise Metrc::ShowErrorMessage, 'Unsupported Media Type' #did you forget to set json headers?
       when 429
-        binding.pry
+        p 'ERROR 429', JSON.parse(response.body) unless response.body == ''
       when 200
         return nil
       else
-        binding.pry
-        raise Metrc::ShowErrorMessage, JSON.parse(response.body)
+        raise Metrc::ShowErrorMessage, JSON.parse(response.body) unless response.body == ''
       end
     end
 

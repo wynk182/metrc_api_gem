@@ -28,32 +28,44 @@ Or install it yourself as:
 
 Initialize the class
 
-    m = Metrc::Client.new
+```ruby
+m = Metrc::Client.new
+```
 
 Set your endpoint and vendor api key
 
-    m.default_body[:vendor_api_key] = XXXXXXXXXXXXXXXXXXXXXXXXX
-    m.endpoint = 'https://sandbox-api-ca.metrc.com'
+```ruby
+m.default_body[:vendor_api_key] = 'XXXXXXXXXXXXXXXXXXXXXXXXX'
+m.endpoint = 'https://sandbox-api-ca.metrc.com'
+```
 
 Use any of the endpoints in the API as Ruby methods. Metrc requires 2 api keys, the vendor and the user. Pass the User api key in as an argument. Your vendor key should be located in credentials namespaced by rails environment, state(like :metrc_california) and finally named :vendor_api_key
-    
-    m.get_facilities_v1(user_api_key)
-    # OR
-    m.get_packages_v1_active(user_api_key, {license_number: XXXXXXXXX-LIC})
+  
+```ruby  
+m.get_facilities_v1(user_api_key)
+# OR
+m.get_packages_v1_active(user_api_key, {license_number: 'XXXXXXXXX-LIC'})
+```
 
 There is another couple useful methods.
 	
-	f = m.get_facilities_v1(user_api_key)
-	f = m.symbolize_response(f)
-    m.save_response_to_object!(f, my_obj)
-
-Symbolize_response will take any metrc response and turn their camel case string keys into snake case symbols. save_response_to_object! is a mutating method that will iterate through the response and save the data to whatever object you pass in at 'my_obj'. Please note, the saving looks something like this 
-
 ```ruby
-my_obj[key] = value if my_obj.key?(key)
+f = m.get_facilities_v1(user_api_key)
+f = m.symbolize_response(f)
+m.save_response_to_object!(f, my_obj)
 ```
 
-The idea here is to save what we want to save and leave the rest. The limitation is you must name your columns in your database identical to my snake case version.
+```symbolize_response``` will take any metrc response and turn their camel case string keys into snake case symbols. ```save_response_to_object!``` is a mutating method that will iterate through the response and save the data to whatever object you pass in at ```my_obj```. Please note, the saving looks something like this 
+
+```ruby
+def save_response_to_object!(response, user_object)
+  response.each do |key, value|
+    user_object[key] = value if user_object.respond_to?(key)
+  end
+end
+```
+
+The method is fairly simple but idea here is to save what we want to save and leave the rest. The limitation is you must name your columns in your database identical to my snake case version. 
 
 ## Development
 

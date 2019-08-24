@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    metrc_api_gem (0.0.1)
+    metrc_api_gem (0.0.2)
       faraday (~> 0.15.4)
 
 GEM

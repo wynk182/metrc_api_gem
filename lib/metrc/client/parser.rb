@@ -3,9 +3,9 @@ module Metrc
   class Client
     module Parser
       def symbolize_response(response_array)
-        symbolized_response = {}
         symbolized_array = []
         response_array.each do |response|
+          symbolized_response = {}
           symbolized_response.merge(recursively_symbolize_keys(response, symbolized_response))
           symbolized_array << symbolized_response
         end
@@ -24,11 +24,9 @@ module Metrc
         symbolized_response
       end
 
-      def save_response_to_object!(response_array, user_object)
-        response_array.each do |response|
-          response.each do |key, value|
-            user_object[key] = value if user_object.respond_to?(key)
-          end
+      def save_response_to_object!(response, user_object)
+        response.each do |key, value|
+          user_object[key] = value if user_object.respond_to?(key)
         end
       end
 
