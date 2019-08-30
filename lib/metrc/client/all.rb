@@ -1,4 +1,3 @@
-require 'pry'
 module Metrc
   class Client
     module All

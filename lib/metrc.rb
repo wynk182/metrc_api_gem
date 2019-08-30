@@ -4,7 +4,6 @@ require 'metrc/configuration'
 require 'metrc/error'
 require 'metrc/api'
 require 'metrc/client'
-require 'pry'
 
 module Metrc
   extend Configuration

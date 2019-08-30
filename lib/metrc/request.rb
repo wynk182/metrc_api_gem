@@ -1,4 +1,3 @@
-require 'pry'
 module Metrc
   module Request
     def request(method, path, user_api_key, options)
