@@ -4,7 +4,7 @@ Metrc Ruby API Wrapper - ALPHA!!! DO NOT USE IN PRODUCTION ENVIRONMENT YET
 
 Metrc API Docs: https://api-co.metrc.com/Documentation/ (replace 'co' with whatever state metrc operates in)
 
-Note: Most endpoints do not work and are currently being tested. No Rspec tests have been written yet.
+Note: Most, if not all, endpoints now work for both get and post. I still do not recommend using in a production environment yet as no formal tests have been written. 
 
 Special Thanks: buttercloud for his tookan api gem. This gem is forked from that and modified for metrc. https://github.com/buttercloud/tookan_ruby_api
 
@@ -55,7 +55,9 @@ f = m.symbolize_response(f)
 m.save_response_to_object!(f, my_obj)
 ```
 
-```symbolize_response``` will take any metrc response and turn their camel case string keys into snake case symbols. ```save_response_to_object!``` is a mutating method that will iterate through the response and save the data to whatever object you pass in at ```my_obj```. Please note, the saving looks something like this 
+```symbolize_response``` will take any metrc response and turn their camel case string keys into snake case symbols. **HOWEVER** this does not working with responses that the value is an array like get_sales_receipts. I will get around too this sometime. I don't need any endpoints that have this so it isn't a priority right now.
+
+```save_response_to_object!``` is a mutating method that will iterate through the response and save the data to whatever object you pass in at ```my_obj```. Please note, the saving looks something like this 
 
 ```ruby
 def save_response_to_object!(response, user_object)
