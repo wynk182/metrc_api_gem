@@ -14,7 +14,7 @@ module Metrc
     # The endpoint that will be used to connect if none is set
     #
     # @note There is no reason to use any other endpoint at this time
-    DEFAULT_ENDPOINT = "https://sandbox-api-ca.metrc.com/".freeze
+    DEFAULT_ENDPOINT = Rails.application.credentials[Rails.env.to_sym][:metrc_california][:metrc_url].to_s.freeze
 
     attr_accessor *VALID_OPTIONS_KEYS
 
